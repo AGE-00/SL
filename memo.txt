@@ -1,3 +1,4 @@
 1.開発するフレームワークを決める
 2.開発環境を整える
 リモートデスクトップで学校のPCに接続したほうがいいかもしれない
+https://qiita.com/apricotcomic/items/7ff53950e10fcff212d2
