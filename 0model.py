@@ -27,10 +27,11 @@ def create_model():
 (train_images, train_labels, test_images, test_labels) = get_data()
 
 model = create_model()
+model.load_weight("model")
 
-model.fit(train_images, train_labels, epochs=5)
-
+predictions = model.predic(test_images[:20])
 test_loss, test_acc = model.evaluate(test_images, test_labels)
 
-print(f"Test Loss = {test_loss}")
-print(f"Test Accuracy = {test_acc}")
+for i in range(5):
+    predicted_index = np.argmax(predictions[i])
+    print(f"prediction= {predicted_index} answer = {test_labels[i]}")
