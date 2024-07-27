@@ -1,7 +1,8 @@
 import numpy as np
 import tensorflow as tf
 from tensorflow import keras
-
+import math
+import time
 
 def get_data():
     train_data, test_data = keras.datasets.mnist.load_data()
