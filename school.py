@@ -11,3 +11,4 @@ results = model(img)
 
 # Display results
 results.print()  # Other options: .show(), .save(), .crop(), .pandas(), etc.
+#https://docs.ultralytics.com/ja/yolov5/quickstart_tutorial/#inference-with-pytorch-hub このサイト参照してね　あとultraなんとかをホストPCにダウンロードしておこうねanacondaつかうよ
