@@ -1,14 +1,8 @@
-import torch
-import cv2
-# Model loading
-model = torch.hub.load("ultralytics/yolov5", "yolov5s")  # Can be 'yolov5n' - 'yolov5x6', or 'custom'
+from ultralytics import YOLO
 
-# Inference on images
-img = "https://ultralytics.com/images/zidane.jpg"  # Can be a file, Path, PIL, OpenCV, numpy, or list of images
+if __name__ == '__main__':
+    # Load a model
+    model = YOLO('yolov5n.pt')
 
-# Run inference
-results = model(img)
-
-# Display results
-results.print()  # Other options: .show(), .save(), .crop(), .pandas(), etc.
-#https://docs.ultralytics.com/ja/yolov5/quickstart_tutorial/#inference-with-pytorch-hub このサイト参照してね　あとultraなんとかをホストPCにダウンロードしておこうねanacondaつかうよ
+    # Predict the model
+    model.predict('https://ultralytics.com/images/bus.jpg', save=True, conf=0.5)
