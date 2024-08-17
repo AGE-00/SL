@@ -1,31 +1,47 @@
-import os
-import requests
-from bs4 import BeautifulSoup
+import torch
+import cv2
+import numpy as np
 
-page_url = "https://duckduckgo.com/?q=%E4%BF%A1%E5%8F%B7%E6%A9%9F+%E6%AD%A9%E8%A1%8C%E8%80%85%E3%80%80%E6%97%A5%E6%9C%AC&t=brave&iar=images&iax=images&ia=images"
-res = requests.get(page_url)
-soup = BeautifulSoup(res.text)
-print(soup.find_all("img"))
+# YOLOv5モデルの読み込み（PyTorch Hubを使用）
+model = torch.hub.load('ultralytics/yolov5', 'yolov5s')
 
-img_tags = soup.find_all("img")
-img_urls = []
+# 画像を読み込む
+image = cv2.imread('/Users/nagas/Downloads/traffiic.jpg')
 
-for img_tag in img_tags:
-    img_url = img_tag.get("src")
-    if img_url != None:
-        img_urls.append(img_url)
+# YOLOv5モデルを使って信号機を検出
+results = model(image)
+
+# 検出結果をPandas DataFrameとして取得
+detections = results.pandas().xyxy[0]
+
+# 検出された信号機の領域を抽出
+for index, row in detections.iterrows():
+    if row['name'] == 'traffic light':  # YOLOv5のラベルが 'traffic light' の場合
+        x1, y1, x2, y2 = int(row['xmin']), int(row['ymin']), int(row['xmax']), int(row['ymax'])
         
-download_folder = "download"
+        # 信号機領域の切り抜き
+        roi = image[y1:y2, x1:x2]
+        
+        # 切り抜いた領域で色フィルタリング（例として赤色フィルタを適用）
+        hsv_roi = cv2.cvtColor(roi, cv2.COLOR_BGR2HSV)
+        red_lower = np.array([0, 70, 50])
+        red_upper = np.array([10, 255, 255])
+        red_mask = cv2.inRange(hsv_roi, red_lower, red_upper)
+        
+        # フィルタされた結果をマージ
+        filtered = cv2.bitwise_and(roi, roi, mask=red_mask)
+        
+        # 結果を元の画像に反映
+        image[y1:y2, x1:x2] = filtered
+        
+        # 信号機領域を囲む矩形を描画 (太い線に変更)
+        cv2.rectangle(image, (x1, y1), (x2, y2), (0, 255, 0), 4)  # 線の太さを4に設定
 
-for i, img_url in enumerate(img_urls):
-    img = requests.get(img_url, stream=True)
-    
-    # ファイル名を番号順にするために、インデックスを利用
-    img_name = f"image_{i}.jpg"
-    
-    # ダウンロードフォルダに保存するパスを作成
-    save_path = os.path.join(download_folder, img_name)
-    
-    with open(save_path, "wb") as f:
-    	f.write(img.content)
-    	print(f"画像をダウンロードしました: {save_path}")
+        # 信号機のラベルを描画
+        label = "Traffic Light"
+        cv2.putText(image, label, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
+
+# 結果を表示
+cv2.imshow('Detected Traffic Lights with Color Filtering', image)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
