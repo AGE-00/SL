@@ -22,7 +22,7 @@ for index, row in detections.iterrows():
         # 信号機領域の切り抜き
         roi = image[y1:y2, x1:x2]
         
-        # 切り抜いた領域で色フィルタリング（例として赤色フィルタを適用）
+        # 切り抜いた領域で色フィルタリングする
         hsv_roi = cv2.cvtColor(roi, cv2.COLOR_BGR2HSV)
         red_lower = np.array([0, 70, 50])
         red_upper = np.array([10, 255, 255])
@@ -31,8 +31,11 @@ for index, row in detections.iterrows():
         # フィルタされた結果をマージ
         filtered = cv2.bitwise_and(roi, roi, mask=red_mask)
         
-        # 結果を元の画像に反映
-        image[y1:y2, x1:x2] = filtered
+        # フィルタされた部分と元の画像を合成
+        combined = cv2.addWeighted(roi, 0.7, filtered, 0.3, 0)
+
+        # 元画像に合成結果を反映
+        image[y1:y2, x1:x2] = combined
         
         # 信号機領域を囲む矩形を描画 (太い線に変更)
         cv2.rectangle(image, (x1, y1), (x2, y2), (0, 255, 0), 4)  # 線の太さを4に設定
