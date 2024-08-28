@@ -1,12 +1,13 @@
 import torch
 import cv2
+
 import numpy as np
 
 # YOLOv5モデルの読み込み（PyTorch Hubを使用）
 model = torch.hub.load('ultralytics/yolov5', 'yolov5s')
 
 # 画像を読み込む
-image = cv2.imread('/Users/nagas/Downloads/traffiic.jpg')
+image = cv2.imread('images')
 
 # YOLOv5モデルを使って信号機を検出
 results = model(image)
@@ -45,6 +46,6 @@ for index, row in detections.iterrows():
         cv2.putText(image, label, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
 
 # 結果を表示
-cv2.imshow('Detected Traffic Lights with Color Filtering', image)
+cv2.imshow('出力', image)
 cv2.waitKey(0)
 cv2.destroyAllWindows()
