@@ -1,51 +1,51 @@
 import torch
 import cv2
 
-import numpy as np
-
 # YOLOv5モデルの読み込み（PyTorch Hubを使用）
 model = torch.hub.load('ultralytics/yolov5', 'yolov5s')
 
-# 画像を読み込む
-image = cv2.imread('images')
+# 動画の読み込み
+video_path = '/Users/nagas/Downloads/traffic.mp4'  # 入力動画ファイルのパス
+cap = cv2.VideoCapture(video_path)
 
-# YOLOv5モデルを使って信号機を検出
-results = model(image)
+# 動画の出力設定
+output_path = R'"C:\Users\students\Downloads\IMG_4493.mp4"'  # 出力動画ファイルのパス
+fourcc = cv2.VideoWriter_fourcc(*'mp4v')  # 出力ファイル形式
+fps = int(cap.get(cv2.CAP_PROP_FPS))
+width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+out = cv2.VideoWriter(output_path, fourcc, fps, (width, height))
 
-# 検出結果をPandas DataFrameとして取得
-detections = results.pandas().xyxy[0]
+while cap.isOpened():
+    ret, frame = cap.read()
+    if not ret:
+        break
 
-# 検出された信号機の領域を抽出
-for index, row in detections.iterrows():
-    if row['name'] == 'traffic light':  # YOLOv5のラベルが 'traffic light' の場合
-        x1, y1, x2, y2 = int(row['xmin']), int(row['ymin']), int(row['xmax']), int(row['ymax'])
-        
-        # 信号機領域の切り抜き
-        roi = image[y1:y2, x1:x2]
-        
-        # 切り抜いた領域で色フィルタリングする
-        hsv_roi = cv2.cvtColor(roi, cv2.COLOR_BGR2HSV)
-        red_lower = np.array([0, 70, 50])
-        red_upper = np.array([10, 255, 255])
-        red_mask = cv2.inRange(hsv_roi, red_lower, red_upper)
-        
-        # フィルタされた結果をマージ
-        filtered = cv2.bitwise_and(roi, roi, mask=red_mask)
-        
-        # フィルタされた部分と元の画像を合成
-        combined = cv2.addWeighted(roi, 0.7, filtered, 0.3, 0)
+    # YOLOv5モデルを使って信号機を検出
+    results = model(frame)
 
-        # 元画像に合成結果を反映
-        image[y1:y2, x1:x2] = combined
-        
-        # 信号機領域を囲む矩形を描画 (太い線に変更)
-        cv2.rectangle(image, (x1, y1), (x2, y2), (0, 255, 0), 4)  # 線の太さを4に設定
+    # 検出結果をPandas DataFrameとして取得
+    detections = results.pandas().xyxy[0]
 
-        # 信号機のラベルを描画
-        label = "Traffic Light"
-        cv2.putText(image, label, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
+    # 検出された信号機の領域を矩形で囲む
+    for index, row in detections.iterrows():
+        if row['name'] == 'traffic light':  # YOLOv5のラベルが 'traffic light' の場合
+            x1, y1, x2, y2 = int(row['xmin']), int(row['ymin']), int(row['xmax']), int(row['ymax'])
+            # 信号機領域を囲む矩形を描画
+            cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 2)
+            # 信号機のラベルを描画
+            label = "Traffic Light"
+            cv2.putText(frame, label, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
 
-# 結果を表示
-cv2.imshow('出力', image)
-cv2.waitKey(0)
+    # 結果のフレームを動画に書き込み
+    out.write(frame)
+
+    # 動画をリアルタイムで表示（必要に応じて）
+    cv2.imshow('Traffic Light Tracking', frame)
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+
+# 動画オブジェクトの解放
+cap.release()
+out.release()
 cv2.destroyAllWindows()
