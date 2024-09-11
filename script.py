@@ -9,7 +9,7 @@ video_path = '/Users/nagas/Downloads/traffic.mp4'  # 入力動画ファイルの
 cap = cv2.VideoCapture(video_path)
 
 # 動画の出力設定
-output_path = '/Users/nagas/Downloads/output_video.mp4'  # 出力動画ファイルのパス
+output_path = R'"C:\Users\students\Downloads\IMG_4493.mp4"'  # 出力動画ファイルのパス
 fourcc = cv2.VideoWriter_fourcc(*'mp4v')  # 出力ファイル形式
 fps = int(cap.get(cv2.CAP_PROP_FPS))
 width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
