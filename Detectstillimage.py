@@ -66,8 +66,6 @@ def TrafficLightSignal(imgArray_or_imgPath):
 
     if type(img) == np.ndarray:  # 歩行者用信号機の画像があるか確かめる
         RedBlueImgs = extractRedBlueArea(img)
+        return ReturnTrafficLightSignal(RedBlueImgs)
     else:
         return None
-img_path = 'https://developers.agirobots.com/jp/wp-content/uploads/2022/04/868DE706-54D3-412E-8CA9-9C93051C9A91-847x1024.jpeg'
-TrafficLightSignal(img_path)
-    return ReturnTrafficLightSignal(RedBlueImgs)

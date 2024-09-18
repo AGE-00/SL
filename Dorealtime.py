@@ -43,3 +43,5 @@ while cap.isOpened():
 # 終了処理
 cap.release()
 cv2.destroyAllWindows()
+
+##credit https://zenn.dev/collabostyle/articles/3d0f210c59679e
