@@ -3,7 +3,7 @@ from ultralytics import YOLO
 
 model = YOLO('yolov8n.pt')
 
-video_path = 0 # 本体に付属のカメラを指定
+video_path =1 # 本体に付属のカメラを指定
 cap = cv2.VideoCapture(video_path)
 
 while cap.isOpened():
