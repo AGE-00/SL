@@ -1,4 +1,4 @@
-from ultralytics import YOLO
+import ultralytics
 
 # Load a COCO-pretrained YOLO11n model
 model = YOLO("yolo11n.pt")
