@@ -5,10 +5,10 @@ from ultralytics import YOLO
 model = YOLO("yolov8n.pt")
 
 # カメラキャプチャの初期化
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(1)
 
 while True:
-    ret, frame = cap.read()  # カメラからフレームを読み込む
+    ret, frame = cap.read(0)  # カメラからフレームを読み込む
     if not ret:
         break
 
