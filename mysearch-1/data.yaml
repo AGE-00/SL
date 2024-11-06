@@ -1,5 +1,5 @@
 names:
-- traffic-light
+  - traffic-light
 nc: 1
 roboflow:
   license: MIT
@@ -7,6 +7,6 @@ roboflow:
   url: https://universe.roboflow.com/age-unvlj/mysearch/dataset/1
   version: 1
   workspace: age-unvlj
-test: ../test/images
-train: mysearch-1/train/images
-val: mysearch-1/valid/images
+path: C:\Users\students\Documents\GitHub\SL\mysearch-1
+train: train/images
+val: val/images
