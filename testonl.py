@@ -1,7 +1,9 @@
-from multiprocessing import freeze_support
 from ultralytics import YOLO
 
-if __name__ == '__main__':
-    freeze_support()  # Windowsでマルチプロセスを使用するために必要
-    model = YOLO("yolo11n.pt")  # load a pretrained model (recommended for training)
-    model.train(data=R'C:\Users\students\Documents\GitHub\SL\mysearch-1\mysearch-1\valid\images', epochs=100, imgsz=640 ) #device=0 GPUの指定 CPUの場合は削除する
+# Load a model
+model = YOLO("yolo11n.yaml")  # build a new model from YAML
+model = YOLO("yolo11n.pt")  # load a pretrained model (recommended for training)
+model = YOLO("yolo11n.yaml").load("yolo11n.pt")  # build from YAML and transfer weights
+
+# Train the model
+results = model.train(data="coco8.yaml", epochs=100, imgsz=640)
