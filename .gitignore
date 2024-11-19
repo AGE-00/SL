@@ -1,2 +1,4 @@
 /runs/
 /yolov5/
+/datasets/
+/.conda/

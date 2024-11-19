@@ -7,6 +7,7 @@ roboflow:
   url: https://universe.roboflow.com/age-unvlj/mysearch/dataset/1
   version: 1
   workspace: age-unvlj
-path: C:\Users\students\Documents\GitHub\SL\mysearch-1
-train: train/images
-val: val/images
+path: C:/Myprograms/SL/mysearch-1"
+train: train
+val: valid # optional
+test: test
