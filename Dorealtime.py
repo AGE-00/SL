@@ -1,7 +1,7 @@
 import cv2
 from ultralytics import YOLO
 
-model = YOLO('yolov8n.pt')
+model = YOLO("C:/Users/students/Documents/GitHub/SL/train15/weights/best.pt")
 
 video_path =0 # 本体に付属のカメラを指定
 cap = cv2.VideoCapture(video_path)
@@ -31,7 +31,7 @@ while cap.isOpened():
 			cv2.putText(annotatedFrame, f"{x1} {y1} {x2} {y2}", (x1, y1 - 40), cv2.FONT_HERSHEY_PLAIN, 2.0, (0, 255, 0), 2, cv2.LINE_AA)
 
 		# プレビューウィンドウに画像出力
-		cv2.imshow("YOLOv8 Inference", annotatedFrame)
+		cv2.imshow("YOLO11n Inference", annotatedFrame)
 	
 		# アプリケーション終了
 		if cv2.waitKey(1) & 0xFF == ord("q"):
