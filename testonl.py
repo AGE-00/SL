@@ -1,5 +1,6 @@
 from ultralytics import YOLO
 from multiprocessing import freeze_support
+
 def main():
     # Load a COCO-pretrained YOLO11n model
     model = YOLO("C:/myprograms/SL/yolo11n.pt")
