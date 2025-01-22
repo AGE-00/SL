@@ -2,7 +2,7 @@ import cv2
 from ultralytics import YOLO
 
 # YOLOv8モデルのロード (最適なモデルを選択)
-model = YOLO("yolov8n.pt")
+model = YOLO("C:/myprograms/SL/runs/detect/train25/weights/best.pt")
 
 # カメラキャプチャの初期化
 cap = cv2.VideoCapture(1)

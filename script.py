@@ -1,15 +1,16 @@
 import torch
 import cv2
+from ultralytics import YOLO
 
 # YOLOv5モデルの読み込み（PyTorch Hubを使用）
-model = torch.hub.load('ultralytics/yolov5', 'yolov5s')
+model = YOLO("C:/myprograms/SL/runs/detect/train25/weights/best.pt")
 
 # 動画の読み込み
 video_path = '/Users/nagas/Downloads/traffic.mp4'  # 入力動画ファイルのパス
 cap = cv2.VideoCapture(video_path)
 
 # 動画の出力設定
-output_path = R'"C:\Users\students\Downloads\IMG_4493.mp4"'  # 出力動画ファイルのパス
+output_path = R'"C:\Users\nagas\Downloads\IMG_4493.mp4"'  # 出力動画ファイルのパス
 fourcc = cv2.VideoWriter_fourcc(*'mp4v')  # 出力ファイル形式
 fps = int(cap.get(cv2.CAP_PROP_FPS))
 width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))

@@ -1,9 +1,9 @@
 import cv2
 from ultralytics import YOLO
 
-model = YOLO("C:/Users/students/Documents/GitHub/SL/train15/weights/best.pt")
+model = YOLO("C:/myprograms/SL/runs/detect/train25/weights/best.pt")
 
-video_path =0 # 本体に付属のカメラを指定
+video_path =1 # 本体に付属のカメラを指定
 cap = cv2.VideoCapture(video_path)
 
 while cap.isOpened():
