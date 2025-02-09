@@ -1,9 +1,9 @@
 import cv2
 from ultralytics import YOLO
+path="your_model_path"
+model = YOLO(path)
 
-model = YOLO("C:/myprograms/SL/runs/detect/train25/weights/best.pt")
-
-video_path =1 # 本体に付属のカメラを指定
+video_path =0 # 本体に付属のカメラを指定
 cap = cv2.VideoCapture(video_path)
 
 while cap.isOpened():
@@ -15,8 +15,6 @@ while cap.isOpened():
 		# キャプチャした画像サイズを取得
 		imageWidth = results[0].orig_shape[0]
 		imageHeight = results[0].orig_shape[1]
-
-		# 後のオブジェクト名出力などのため
 		names = results[0].names
 		classes = results[0].boxes.cls
 		boxes = results[0].boxes
@@ -32,16 +30,13 @@ while cap.isOpened():
 
 		# プレビューウィンドウに画像出力
 		cv2.imshow("YOLO11n Inference", annotatedFrame)
-	
+
 		# アプリケーション終了
 		if cv2.waitKey(1) & 0xFF == ord("q"):
-			break	
-	else: 
+			break
+	else:
 		# キャプチャに失敗したら終了
 		break
-        
-# 終了処理
+
 cap.release()
 cv2.destroyAllWindows()
-
-##credit https://zenn.dev/collabostyle/articles/3d0f210c59679e

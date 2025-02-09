@@ -57,7 +57,7 @@ def ReturnTrafficLightSignal(img_list):
     else:
         return 'blue'
 
-model = torch.hub.load('ultralytics/yolov5', 'yolov5s')
+model = torch.hub.load('ultralytics/yolov11', 'yolov11n')
 model.classes = [9]
 
 def TrafficLightSignal(imgArray_or_imgPath):
