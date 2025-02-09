@@ -3,4 +3,3 @@
 /.conda/
 /train15/
 runs/*
-!runs/train25
