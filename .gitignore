@@ -1,5 +1,6 @@
-/runs/
 /yolov5/
 /datasets/
 /.conda/
 /train15/
+runs/*
+!runs/train25
